@@ -1,0 +1,25 @@
+id,product_id,feature,value
+1,1,Fabric,Canvas
+2,1,Buttons,Brass
+3,2,Lenses,Ultrasheen
+4,2,UV Protection,null
+5,2,Frames,LightCompose
+6,3,Fabric,100% Cotton
+7,3,Cut,Skinny
+8,4,Fabric,99% Cotton 1% Elastic
+9,4,Cut,Loose
+10,5,Sole,Rubber
+11,5,Material,FullControlSkin
+12,5,Mid-Sole,ControlSupport Arch Bridge
+13,5,Stitching,Double Stitch
+14,6,Sole,Rubber
+15,6,Material,FullControlSkin
+16,6,Mid-Sole,ControlSupport Arch Bridge
+17,6,Stitching,Double Stitch
+18,7,Sole,Rubber
+19,7,Material,FullControlSkin
+20,7,Stitching,Double Stitch
+21,8,Sole,Rubber
+22,8,Material,FullControlSkin
+23,8,Stitching,Double Stitch
+24,9,Sole,Rubber
