@@ -19,19 +19,25 @@ MongoClient.connect(url, function (err, client) {
 
   Papa.parse(styles, {  encoding: 'utf-8', delimiter: ",", header: true, step: (results, parser) => {
     parser.pause();
-    console.log('Working on ' + results.data.productId);
+    console.log('setStyles working on ' + results.data.productId);
     let data = results.data;
     data.photos = [];
     data.skus = [];
+    data.productId = Number(data.productId);
+    if (data.sale_price !== 'null') { data.sale_price = Number(data.sales_price) } else { data.sale_price = null };
+    data.original_price = Number(data.original_price);
+    data.id = Number(data.id);
     if (data.default_style === '1') {
       data.default_style = true;
     } else {
       data.default_style = false;
     }
       db.collection(workingCollection).updateOne(
-        { product_id: Number(data.productId) },
+        { product_id: data.productId },
         { $push: { "styles": data } })
-    parser.resume();
+        .then((result) => {
+          parser.resume();
+        });
     },
 
   complete: (results) => {

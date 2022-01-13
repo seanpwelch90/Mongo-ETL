@@ -18,17 +18,22 @@ MongoClient.connect(url, function (err, client) {
   var db = client.db(workingDB);
 
   Papa.parse(photos, {
-    encoding: 'utf-8', delimiter: ",", header: true, step: (results, parser) => {
+    encoding: 'utf-8', delimiter: ",", header: true,
+
+    step: (results, parser) => {
       parser.pause();
 
-      console.log('Working on ' + results.data.styleId);
+      console.log('SetPhotos Working on ' + results.data.styleId);
       let data = results.data;
 
-      db.collection(workingCollection).updateOne({ styles: { $elemMatch: { id: data.styleId } } }, { $push: { "styles.$.photos": { url: data.url, thumbnail_url: data.thumbnail_url } } });
-      parser.resume();
+      db.collection(workingCollection).updateOne({ styles: { $elemMatch: { id: Number(data.styleId) } } }, { $push: { "styles.$.photos": { url: data.url, thumbnail_url: data.thumbnail_url } } }).then((result) => {
+        parser.resume();
+      });
+
     },
     complete: (results) => {
       console.log('Complete!')
+      client.close();
     }
   });
 

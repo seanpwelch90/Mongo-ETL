@@ -16,20 +16,24 @@ MongoClient.connect(url, function (err, client) {
   if (err) throw err;
   var db = client.db(workingDB);
 
-  Papa.parse(related, {
+  Papa.parse(skus, {
     encoding: 'utf-8', delimiter: ",", header: true, step: (results, parser) => {
 
       parser.pause();
       let data = results.data;
-      console.log('Working on ' + data.styleId);
+      console.log('SKUs Working on ' + data.styleId);
+      data.id = Number(data.id);
+      data.styleId = Number(data.styleId);
+      data.quantity = Number(data.quantity);
 
       db.collection(workingCollection).updateOne({ styles: { $elemMatch: { id: data.styleId } } },
-        { $push: { "styles.$.skus": data } });
-
-      parser.resume();
+        { $push: { "styles.$.skus": data } }).then((result) => {
+          parser.resume();
+        });
     },
     complete: (results) => {
       console.log('complete');
+      client.close();
     }
   });
 

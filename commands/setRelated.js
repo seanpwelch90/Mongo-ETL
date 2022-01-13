@@ -20,13 +20,13 @@ MongoClient.connect(url, function (err, client) {
 
       parser.pause();
       let data = results.data;
-      let num = data.related_product_id;
-      console.log('Working on ' + data.current_product_id);
+      let num = Number(data.related_product_id);
+      console.log('SetRelated working on ' + data.current_product_id);
 
-      db.collection(workingCollection).updateOne({ product_id: data.current_product_id },
-        { $push: { "related_products": num } })
-
-      parser.resume();
+      db.collection(workingCollection).updateOne({ product_id: Number(data.current_product_id) },
+        { $push: { "related_products": num } }).then((result) => {
+          parser.resume();
+        });
 
     },
     complete: (results) => {
